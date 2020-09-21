@@ -1,0 +1,8 @@
+<template>
+    <template if:true={isView}>
+        <lightning-formatted-text value={displayValue}></lightning-formatted-text>
+    </template>
+    <template if:true={isEdit}>
+        <c-data-storing-right-way value={_value} onchange={handleInputChange}></c-data-storing-right-way>
+    </template>
+</template>

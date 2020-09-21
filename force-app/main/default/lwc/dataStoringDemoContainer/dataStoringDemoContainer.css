@@ -1,0 +1,6 @@
+:host {
+    min-width: 50em;
+    min-height: 40em;
+    display: block;
+    background: white;
+}
