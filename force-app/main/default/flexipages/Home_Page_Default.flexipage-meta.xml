@@ -3,12 +3,22 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>home:heroChart</componentName>
+                <componentName>dataStoringDemoContainer</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>dataStoringDemoContainer</componentName>
+                <componentName>importExampleContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>customPicklistUsage</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>home:heroChart</componentName>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

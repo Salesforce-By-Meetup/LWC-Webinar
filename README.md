@@ -14,6 +14,10 @@
     - [In another component](#in-another-component)
     - [Export resources in a bundle with component](#export-resources-in-a-bundle-with-component)
   - [Documenting and typing, JSDoc](#documenting-and-typing-jsdoc)
+    - [Types](#types)
+    - [Type exporting/importing](#type-exportingimporting)
+    - [Standard types](#standard-types)
+    - [Best Practice for re-usable](#best-practice-for-re-usable)
 - [Tips and Tricks](#tips-and-tricks)
   - [Multiple templates and render() override](#multiple-templates-and-render-override)
   - [Slot discovery](#slot-discovery)
@@ -435,6 +439,8 @@ There are 2 ways
 
 ### Documenting and typing, JSDoc
 
+#### Types
+
 This was a topic I faced with and got into it only some months ago. But this thing sometimes is very helpful.
 
 Sometimes you might face that there is a frequent mistake in simply accessing the field by the wrong name. For instance Apex returns `Id`, LWC expects `recordId`. How can you handle it for the complex objects? The super solution doesn't exist because javascript will always be a weak-type language and Salesforce is not going to allow us a *simple* way to add Typescript (MS is a competitor to SF, so SF have a reason for it).
@@ -461,8 +467,9 @@ Short clarifications:
 - arrays are declared as `Array<TYPE>` or `TYPE[]`, doesn't matter
 - if you want to create a type for Map-like structure which looks like an object, you can use `Object.<KEY_TYPE, VALUE_TYPE>` or `{[KEY_NAME: KEY_TYPE]: VALUE_TYPE}`
 - If you want to specify a standard payload for custom event, set it as `CustomEvent<PAYLOAD_TYPE>`, `event'detail` automatically will capture the type passed here.
+- funcions can be declared as `(param1:PARAM_1_TYPE, ...) => RETURN_TYPE` or via [@callback](https://jsdoc.app/tags-callback.html) declaration separately
 
-But repeating this notation with label and value is cumbersome. So that JSDOC has a `typedef`
+But repeating this notation with label and value is cumbersome. So that JSDOC has a [@typedef](https://jsdoc.app/tags-typedef.html) declaration
 
 ```javascript
 /**
@@ -480,7 +487,58 @@ function processOptions(options) {
 
 After this declaration you can only mention `PicklistOption` instead of the whole type.
 
-What surprises me even now is types are implicitly exported and can be used in another files/components. Suppose we need a picklist but `change` event needs to send `{value, label}` pair. This way let's create a simple picklist component that sends change event with the whole option and track it in the main component
+#### Type exporting/importing
+
+What surprises me even now is types are implicitly exported from the file where you declare them. So that they can be used in other files/components.
+
+The only limitation is you can not re-export the type. It means that you cannot define a type in a helper JS file, import it to the main one and then export it to import in another component.
+
+Suppose we need a picklist but `change` event needs to send `{value, label}` pair. This way let's create a simple picklist component that sends custom "mychange" event with the whole option and track it in the main component. See the `CustomPicklistChangeEvent` type in [custom-picklist](./force-app/main/default/lwc/customPicklist/customPicklist.js) and its usage in [custom-picklist-usage](./force-app/main/default/lwc/customPicklistUsage/customPicklistUsage.js).
+
+```javascript
+// myComponent.js
+/**
+ * @typedef {...} MyType
+ */
+// ...
+export { MyType };
+```
+
+```javascript
+// myComponentUsage.js
+import { MyType } from "c/myComponent";
+```
+
+A sad fact is SFDX plugin not always helps you with this. All the magic with `"c/..."` imports is supported locally via [`lwc/jsconfig.json`](./force-app/main/default/lwc/jsconfig.json) file. To enable it, you need to have the next options. But during this project LWC did nothing to `"compilerOptions"` property, it had only `"experimentalDecorators"` and that's it. From the other hand, in another project it made all the pathes automatically. That's why I added jsconfig to the repository despite it's ignored by default SFDX gitignore.
+
+```json
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "target": "es6",
+        "paths": {
+            "c/componentName": [
+                "componentName/componentName.js"
+            ]
+        }
+    }
+}
+```
+
+#### Standard types
+
+Yes, they exist! And they are helpful in their field. They are stored in `.sfdx/tools/typings/lwc` folder. The ones I liked are the types for UI API. There are plenty of properties on the fields and SObjects and to see them you either need to open the UI API documentation or perform a test launch and copy the whole object and store it internally. Honestly, I did it the second way. And once I was fed up opening it once again and created my own shorted type definitions. But during preparing the webinar material I found that they are already declared, for some reason - in `"lightning/uiRecordApi"` module. But they work good! See the usage in the [account-sobject-definition-fetcher](force-app/main/default/lwc/accountSobjectDefinitionFetcher/accountSobjectDefinitionFetcher.js)
+
+Unfortunately, you can't extend them because local `.d.ts` files are only for your comfortabiliy. On Salesforce all the imports are replaced with the links to their internal JS files.
+
+#### Best Practice for re-usable
+
+I found 3 simple points:
+
+- If the type is local only, you can declare it in a main JS file or in a separate helper if the type needs to be used in many internal JS files
+- If the type is for multiple components that interact with your component (like `PicklistOption` in the example), define it in the component
+- If the type is for multiple components and there's no root component for it (in big code base there could be many components that use `PicklistOption` without referring to your `custom-picklist`), then create a separate component (like `commonTypes`) and declare the type there
 
 ## Tips and Tricks
 

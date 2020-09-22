@@ -1,7 +1,5 @@
 import { LightningElement } from 'lwc';
 
-import { LOG } from "c/testComponent";
-
 export default class DataStoringDemoContainer extends LightningElement {
 
     currentTimestamp;
@@ -31,13 +29,13 @@ export default class DataStoringDemoContainer extends LightningElement {
 
     handleSaveClick() {
         this.mode = "view";
-        LOG(this.template.querySelector("c-data-passing-example").value);
+        console.log(this.template.querySelector("c-data-passing-example").value);
     }
 
     handleCancelClick() {
         this.mode = "view";
         this.template.querySelector('c-data-passing-example').restoreValue();
-        LOG(this.template.querySelector("c-data-passing-example").value);
+        console.log(this.template.querySelector("c-data-passing-example").value);
     }
 
 }

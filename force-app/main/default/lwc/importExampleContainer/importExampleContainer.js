@@ -4,9 +4,13 @@ import ImportExampleUtils, {getDateTime as getBundleDateTime} from "c/importExam
 
 import getDefaultFileDateTime, {getDateTime as getFileDateTime} from "./importExampleContainerUtils";
 
+import {Timestamp} from "c/importExampleUtils"
+
+import {InternalTimestamp} from "./importExampleContainerUtils"
+
 /**
  * Returns current timestamp as a string
- * @returns {string}
+ * @returns {InternalTimestamp}
  */
 const getDateTime = () => {
     return "" + new Date().getTime();

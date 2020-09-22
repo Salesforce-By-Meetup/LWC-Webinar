@@ -1,8 +1,12 @@
 import { LightningElement, api } from 'lwc';
 
 /**
+ * @typedef {string} Timestamp
+ */
+
+/**
  * Returns current timestamp as a string
- * @returns {string}
+ * @returns {Timestamp}
  */
 export const getDateTime = () => {
     return "" + new Date().getTime();

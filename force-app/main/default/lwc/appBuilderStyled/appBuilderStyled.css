@@ -1,0 +1,5 @@
+:host {
+    display: block;
+    background: var(--lwc-colorBackgroundInput, #FFFFFF);
+    padding: 1em;
+}
