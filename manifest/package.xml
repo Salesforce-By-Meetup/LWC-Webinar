@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
   <types>
     <name>FlexiPage</name>
@@ -6,6 +6,11 @@
   </types>
   <types>
     <name>LightningComponentBundle</name>
+    <members>accountSobjectDefinitionFetcher</members>
+    <members>addressOutput</members>
+    <members>appBuilderStyled</members>
+    <members>customPicklist</members>
+    <members>customPicklistUsage</members>
     <members>dataPassingExample</members>
     <members>dataStoringDemoContainer</members>
     <members>dataStoringRightWay</members>
@@ -13,7 +18,14 @@
     <members>dataStoringWrongWay</members>
     <members>importExampleContainer</members>
     <members>importExampleUtils</members>
-    <members>testComponent</members>
+    <members>lightningCommons</members>
+    <members>multiTemplateContainer</members>
+    <members>multiTemplateExample</members>
+    <members>multiTemplateExampleDynamic</members>
+  </types>
+  <types>
+    <name>StaticResource</name>
+    <members>lightningStylesheetOverride</members>
   </types>
   <types>
     <name>CustomTab</name>

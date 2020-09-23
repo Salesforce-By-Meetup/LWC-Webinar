@@ -1,6 +1,6 @@
 <template>
     <template if:true={isView}>
-        <lightning-formatted-text value={displayValue}></lightning-formatted-text>
+        <lightning-formatted-phone value={displayValue}></lightning-formatted-phone>
     </template>
     <template if:true={isEdit}>
         <c-data-storing-right-way value={_value} onchange={handleInputChange}></c-data-storing-right-way>

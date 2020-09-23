@@ -1,18 +1,16 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api } from "lwc";
 
 import { getFormattedPhone } from "c/dataStoringUtils";
-
 
 /**
  * By given readable phone number returns only numeric symbols
  * @param {string} formattedPhone phone with spaces, dashes, brackets
  */
-const getNumbersFromFormattedPhone = formattedPhone => {
-    return formattedPhone.replace(/[\s\(\)\[\]\{\}\-\+\_\=\*\#]/g, "");
-}
+const getNumbersFromFormattedPhone = (formattedPhone) => {
+    return formattedPhone.replace(/[\s()[\]{}\-+_=*#]/g, "");
+};
 
 export default class DataStoringWrongWay extends LightningElement {
-
     isFocus = false;
 
     @api set value(newValue) {
@@ -52,7 +50,6 @@ export default class DataStoringWrongWay extends LightningElement {
         // workaround 1 end
         */
 
-
         /*
         //ISSUE: The value is not set on initializing - workaround 2
         // store new value in a field and update the input in `renderedCallback`
@@ -69,7 +66,6 @@ export default class DataStoringWrongWay extends LightningElement {
         }
         // workaround 2 end
         */
-
     }
 
     handlePhoneFucus() {

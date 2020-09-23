@@ -1,0 +1,5 @@
+@import "./multiTemplateExampleCommon.css";
+
+p {
+    color: blue;
+}

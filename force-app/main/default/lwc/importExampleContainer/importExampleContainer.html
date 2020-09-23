@@ -1,37 +1,39 @@
 <template>
     <c-import-example-utils></c-import-example-utils>
-    <lightning-card variant="Narrow"
-        title="Storing and Passing the data Data"
-        icon-name="standard:Opportunity">
+    <lightning-card variant="Narrow" title="Storing and Passing the data Data" icon-name="standard:Opportunity">
         <div class="slds-var-p-horizontal_small">
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-1 slds-grid slds-grid_align-spread">
                     <div class="slds-col">Timestamp {timestamp}</div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-grid slds-wrap slds-grid_align-spread">
-                    <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_small">
                         <lightning-button label="From the same file" onclick={handleSameFileUpdateClick}>
                         </lightning-button>
                     </div>
-                    <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_small">
                         <lightning-button label="From another file" onclick={handleAnotherFileUpdateClick}>
                         </lightning-button>
                     </div>
-                    <div class="slds-col slds-size_1-of-3">
-                        <lightning-button label="From another file (default import)"
-                            onclick={handleAnotherFileDefaultUpdateClick}>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_small">
+                        <lightning-button
+                            label="From another file (default import)"
+                            onclick={handleAnotherFileDefaultUpdateClick}
+                        >
                         </lightning-button>
                     </div>
-                    <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_small">
                         <lightning-button label="From another bundle" onclick={handleBundleUpdateClick}>
                         </lightning-button>
                     </div>
-                    <div class="slds-col slds-size_1-of-3">
-                        <lightning-button label="From another bundle (default import)"
-                            onclick={handleBundleDefaultUpdateClick}>
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_small">
+                        <lightning-button
+                            label="From another bundle (default import)"
+                            onclick={handleBundleDefaultUpdateClick}
+                        >
                         </lightning-button>
                     </div>
-                    <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-col slds-size_1-of-3 slds-var-p-around_small">
                         <lightning-button label="From another component" onclick={handleComponentUpdateClick}>
                         </lightning-button>
                     </div>

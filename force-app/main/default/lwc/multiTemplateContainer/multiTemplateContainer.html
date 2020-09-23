@@ -1,5 +1,5 @@
 <template>
-    <lightning-card variant="Narrow" title="Storing and Passing the data Data" icon-name="standard:Opportunity">
+    <lightning-card variant="Narrow" title="Input with multiple templates" icon-name="standard:Opportunity">
         <lightning-button
             variant="brand"
             label="Refresh Components"
@@ -11,27 +11,10 @@
         <div class="slds-var-p-horizontal_small">
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-1">Current timestamp: {currentTimestamp}</div>
-                <div class="slds-col slds-size_1-of-2 slds-box">
-                    <div>Not the best way (passing it to the internal components and keeping only there)</div>
-                    <div><code>c-data-storing-wrong-way</code></div>
-                    <div class="slds-box">
-                        <c-data-storing-wrong-way value={currentTimestamp}></c-data-storing-wrong-way>
-                    </div>
-                </div>
-                <div class="slds-col slds-size_1-of-2 slds-box">
-                    <div>Slightly better way (keeping in fields, passing in template)</div>
-                    <div><code>c-data-storing-right-way</code></div>
-                    <div class="slds-box">
-                        <c-data-storing-right-way value={currentTimestamp}></c-data-storing-right-way>
-                    </div>
-                </div>
                 <div class="slds-col slds-size_1-of-1 slds-box">
-                    <div>
-                        Mixed approach: passing directly in template, getting value and managing the state via code
-                    </div>
-                    <div><code>c-data-passing-example</code></div>
+                    <div><code>c-multi-template-example</code></div>
                     <div class="slds-box">
-                        <c-data-passing-example value={currentTimestamp} mode={mode}></c-data-passing-example>
+                        <c-multi-template-example value={currentTimestamp} mode={mode}></c-multi-template-example>
                     </div>
                     <div class="slds-grid slds-grid_align-center">
                         <div class="slds-col slds-var-p-around_small" if:true={isView}>
@@ -42,6 +25,21 @@
                         </div>
                         <div class="slds-col slds-var-p-around_small" if:false={isView}>
                             <lightning-button label="Cancel" onclick={handleCancelClick}></lightning-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-box">
+                    <div><code>c-multi-template-example-dynamic</code></div>
+                    <div class="slds-box">
+                        <c-multi-template-example-dynamic dynamic-template={dynamicTemplate} value={currentTimestamp}>
+                        </c-multi-template-example-dynamic>
+                    </div>
+                    <div class="slds-grid slds-grid_align-center">
+                        <div class="slds-col slds-var-p-around_small">
+                            <lightning-button label="Phone" onclick={handlePhoneTemplateSelectClick}></lightning-button>
+                        </div>
+                        <div class="slds-col slds-var-p-around_small">
+                            <lightning-button label="Text" onclick={handleTextTemplateSelectClick}></lightning-button>
                         </div>
                     </div>
                 </div>
