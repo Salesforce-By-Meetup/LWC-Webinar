@@ -5,6 +5,7 @@
         "target": "es6",
         "paths": {
             "c/accountSobjectDefinitionFetcher": ["accountSobjectDefinitionFetcher/accountSobjectDefinitionFetcher.js"],
+            "c/addressOutput": ["addressOutput/addressOutput.js"],
             "c/appBuilderStyled": ["appBuilderStyled/appBuilderStyled.css"],
             "c/customPicklist": ["customPicklist/customPicklist.js"],
             "c/customPicklistUsage": ["customPicklistUsage/customPicklistUsage.js"],
@@ -15,7 +16,10 @@
             "c/dataStoringWrongWay": ["dataStoringWrongWay/dataStoringWrongWay.js"],
             "c/importExampleContainer": ["importExampleContainer/importExampleContainer.js"],
             "c/importExampleUtils": ["importExampleUtils/importExampleUtils.js"],
-            "c/lwc": ["lwc/lwc.js"]
+            "c/lightningCommons": ["lightningCommons/lightningCommons.js"],
+            "c/multiTemplateContainer": ["multiTemplateContainer/multiTemplateContainer.js"],
+            "c/multiTemplateExample": ["multiTemplateExample/multiTemplateExample.js"],
+            "c/multiTemplateExampleDynamic": ["multiTemplateExampleDynamic/multiTemplateExampleDynamic.js"]
         }
     },
     "include": ["**/*", "../../../../.sfdx/typings/lwc/**/*.d.ts"],

@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api } from "lwc";
 
 /**
  * @typedef {{label: string, value: string}} PicklistOption
@@ -9,7 +9,6 @@ import { LightningElement, api } from 'lwc';
  */
 
 export default class CustomPicklist extends LightningElement {
-
     @api label;
     @api value;
 
@@ -19,9 +18,7 @@ export default class CustomPicklist extends LightningElement {
     @api options;
 
     handlePicklistChange(event) {
-        event.preventDefault();
-        const selectedOption = this.options.find(({value}) => value === event.target.value);
-        this.dispatchEvent(new CustomEvent("mychange", {detail: selectedOption}));
+        const selectedOption = this.options.find(({ value }) => value === event.target.value);
+        this.dispatchEvent(new CustomEvent("mychange", { detail: selectedOption }));
     }
-
 }

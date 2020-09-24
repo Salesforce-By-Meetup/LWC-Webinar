@@ -24,9 +24,6 @@
     -   [Slot discovery](#slot-discovery)
     -   [Custom Mixins](#custom-mixins)
     -   [Hacking standard components styles](#hacking-standard-components-styles)
-    -   [Promise usage in component and data interactions](#promise-usage-in-component-and-data-interactions)
-    -   [Customizable settings for App/Community Builder](#customizable-settings-for-appcommunity-builder)
-    -   [Pub/sub and it's modifications: custom data and settings store](#pubsub-and-its-modifications-custom-data-and-settings-store)
 
 ## Abstract
 
@@ -111,12 +108,7 @@ class A {
             eventType: "webinar",
             online: true,
             offline: false,
-            participants: [
-                {
-                    firstName: "Andrey",
-                    lastName: "Ivanov"
-                }
-            ]
+            participants: [{ firstName: "Andrey", lastName: "Ivanov" }]
         }
     ];
 
@@ -166,9 +158,9 @@ getOnlineParticipants(events) {
 
     // or even
 
-    return events.reduce(
-        (onlineParticipants, event) =>
-                event.online ? onlineParticipants.concat(event.participants) : onlineParticipants,
+    return events.reduce((onlineParticipants, event) => event.online
+            ? onlineParticipants.concat(event.participants)
+            : onlineParticipants,
         []
     );
 }
@@ -271,8 +263,8 @@ The properties:
 
 | name             | purpose                                                           | availability scope                                                                                                              | available in Aura | Example                                                                                                                  |
 | ---------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `export`         | component-specific resources in components with a lot of logic    | only in the bundle where declared - other JS files that are not imported in the source files, via `export { ... } from "./..."` | N/A               | [handleAnotherFileUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L27)        |
-| `export default` | component-specific resource if it is single to export in the file | only in the bundle where declared - other JS files that are not imported in the source files, via `export ... from "./..."`     | N/A               | [handleAnotherFileDefaultUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L31) |
+| `export`         | component-specific resources in components with a lot of logic    | only in the bundle where declared - other JS files that are not imported in the source files, via `import { ... } from "./..."` | N/A               | [handleAnotherFileUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L27)        |
+| `export default` | component-specific resource if it is single to export in the file | only in the bundle where declared - other JS files that are not imported in the source files, via `import ... from "./..."`     | N/A               | [handleAnotherFileDefaultUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L31) |
 
 #### In another bundle
 
@@ -318,8 +310,8 @@ export default class MyComponent {
 Properties
 | name | purpose | availability scope | available in Aura |Example|
 | ---------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |---|
-| `export` | resources used in multiple components | in other bundles via `export { ... } from "c/sharedResources"` | No |[handleBundleUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L35)|
-| `export default` | single resource used by many components | in other bundles via `export ... from "c/sharedResource"` | No |[handleBundleDefaultUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L39)|
+| `export` | resources used in multiple components | in other bundles via `import { ... } from "c/sharedResources"` | No |[handleBundleUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L35)|
+| `export default` | single resource used by many components | in other bundles via `import ... from "c/sharedResource"` | No |[handleBundleDefaultUpdateClick](./force-app/main/default/lwc/importExampleContainer/importExampleContainer.js#L39)|
 
 #### In another component
 
@@ -348,7 +340,8 @@ export default class AvailableAnywhere {
 ```javascript
 // in LWC controller
 callPublicMethod(properties) {
-    this.template.querySelector("c-available-anywhere").publicMethod(properties);
+    this.template.querySelector("c-available-anywhere")
+        .publicMethod(properties);
 }
 ```
 
@@ -399,7 +392,7 @@ There are 2 ways
 
     ```html
     <!-- tableUsage, tableUsage.html -->
-    <c-super-table columns="{columns}," data="{data}"></c-super-table>
+    <c-super-table columns={columns}," data={data}></c-super-table>
     ```
 
     ```javascript
@@ -430,7 +423,7 @@ There are 2 ways
 
     ```html
     <!-- tableUsage, tableUsage.html -->
-    <c-super-table columns="{columns}," data="{data}"></c-super-table>
+    <c-super-table columns={columns}," data={data}></c-super-table>
     ```
 
     ```javascript
@@ -502,7 +495,6 @@ Suppose we need a picklist but `change` event needs to send `{value, label}` pai
  * @typedef {...} MyType
  */
 // ...
-export { MyType };
 ```
 
 ```javascript
@@ -547,17 +539,34 @@ These topics are about the use-cases of LWC that are not well-known. Some of the
 Since you started learning your first programming language, you must have heared the principle of dividing the functions (it even grew to first SOLID principle): each function should stand for one action. The same principle <strike>might</strike> must be applied to components: each component should implement one feature. And components `lightning-formatted-something` align with this principle well. But `lightning-input` doesn't: Salesforce needs a lot of internal components and code to display stylized date, time and color pickers. So despite it represents input in LWC environment, it's not fully one-purpose component. Imagine you need to do something similar. Your template will look like this.
 
 ```HTML
-<template if:true={firstVariant}>
-    <!-- much markup inside -->
+<template>
+    <template if:true={firstVariant}>
+        <!-- much markup inside -->
+    </template>
+    <template if:true={secondVariant}>
+        <!-- even more markup inside -->
+    </template>
+    <!-- even more variants -->
 </template>
-<template if:true={firstVariant}>
-    <!-- even more markup inside -->
-</template>
-<!-- even more variants -->
 ```
 
 Not the best look, is it?
-But Salesforce allows you to split the markup by a list of the templates and choose one of them during render flow. To do that create a `render()` function. This function should return the markup. If it returns `undefined`, no markup is rendered.
+But Salesforce allows you to split the markup by a list of the templates and choose one of them during render flow.
+
+```HTML
+<template>
+    <!-- first variant: much markup inside -->
+</template>
+```
+
+```HTML
+<template>
+    <!-- second variant: much markup inside -->
+    <!-- but in another file -->
+</template>
+```
+
+To do that create a `render()` function. This function should return the markup. If it returns `undefined`, no markup is rendered.
 
 How to return the markup? Import it as `"./myComponent.html"` file.
 
@@ -625,6 +634,8 @@ Now your superTabs need to publish the registering event
 connectedCallback() {
     this.dispatchEvent(new CustomEvent("registersupertab", detail: this.name));
 }
+@api show() { /* ... */}
+@api hide() { /* ... */}
 ```
 
 All the rest is to define the API to show or hide the tab.
@@ -650,7 +661,7 @@ Mixed-in class
 MyComponent
 ```
 
-Personally I was tired writing `this.template.querySelector`, I wanted some shorter function name, even JQuery style `this.$`. Or another boilerplate `this.dispatchEvent(new CustomEvent())`. It could be shortened to `this.fire(name, detail, bubbles, composed)`. I could create these functions in every component or could create a mixin or even mixed class.
+Personally I was tired writing `this.template.querySelector` and `this.dispatchEvent(new CustomEvent())`. I wanted some shorter function name, like `this.$` and `this.fire`. I could create these functions in every component or I could create a mixin or even mixed class.
 
 ```javascript
 // lightningCommons/lightningCommons.js
@@ -672,7 +683,7 @@ export const LightningBaseMixin = (baseClass) => {
 export const LightningElement = LightningBaseMixin(LightningElementBase);
 ```
 
-The limitation is you can't create component named `lwc` and use `api`, `track`, `wire` from any other module except `lwc`, so replacing `"lwc"` fully by your component is impossible.
+The limitation is you can't create component named `lwc` and use `api`, `track`, `wire` from any other module except `lwc`, so full replacing `"lwc"` by your component is impossible.
 
 For the tabs example, we can define `TabMixin`
 
@@ -693,9 +704,29 @@ Exactly the same way famous `NavigationMixin` works. The weird notation of `this
 
 ### Hacking standard components styles
 
-There we should discuss what is the shadow root. The _real_ shadow root is a part of DOM that encapsulates the parts of the dom, like a bounds for selectors and events. You can open [lwc.dev recepies](https://recipes.lwc.dev/) and see in the debug console that parts of the markup are separated by `#shadow-root` element.
+There we should discuss what is the shadow root. The _real_ shadow root encapsulates the parts of the dom, like a bounds for selectors and events. You can open [lwc.dev recepies](https://recipes.lwc.dev/) and see in the debug console that parts of the markup are separated by `#shadow-root` element.
 
-In terms of styling the shadowed components you can use selectors `::shadow` and style the closed components. But not in Salesforce LWC.
+If you work with such components, the only way to style them from the outside is when the component allows you to do it adding `part` attribute to it's markup.
+
+```HTML
+<ui-header>
+    <!-- #shadow-root -->
+        <ul>
+            <li part="item">...</li>
+        </ul>
+</ui-header>
+```
+
+```CSS
+/* outside code */
+ui-header::part(item) {
+    /* styles applicable for shadowed component */
+}
+ui-header::part(item) .title {
+    /* styles NOT applicable for shadowed li
+    because going deep in the part is forbidden */
+}
+```
 
 Salesforce LWC simulates shadow dom via adding the unique selectors in th markup to every tag of your template. So that your myComponent in the DOM will look like
 
@@ -708,7 +739,7 @@ Salesforce LWC simulates shadow dom via adding the unique selectors in th markup
 </div>
 ```
 
-Meanwhile all your CSS written in the component are transformed to add the same selector to all the parts of the selectors.
+Meanwhile all your CSS written in the component is transformed to add the same unique attribute to all the parts of the selectors.
 
 ```CSS
 div[c_my_component_my_component] {
@@ -718,16 +749,10 @@ div[c_my_component_my_component] > span[c_my_component_my_component] {
     font-weight: bold;
 }
 div[c_my_component_my_component] input[c_my_component_my_component] {
-    color: red; /* not applied */
+    color: red; /* not applied, input has only lightning-input attr */
 }
 ```
 
 But static resource styles are not transformed at all. So that loading external css file is a common approach to change some parts of the standard markup. But make sure your style changes only your component, so that add a custom class to identify your components.
 
 component - [address-output](./force-app/main/default/lwc/addressOutput/addressOutput.js)
-
-### Promise usage in component and data interactions
-
-### Customizable settings for App/Community Builder
-
-### Pub/sub and it's modifications: custom data and settings store

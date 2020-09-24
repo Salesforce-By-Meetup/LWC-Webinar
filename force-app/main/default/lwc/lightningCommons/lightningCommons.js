@@ -1,9 +1,16 @@
 import { LightningElement as LightningElementBase } from "lwc";
 
 /**
+ * @template T
+ * @typedef {(baseClass: T) => T} Mixin
+ */
+
+/**
  * Applies all mixins to the base class
- * @param {Function} baseClass class to mix functionality in
- * @param {...(baseClass: Function) => Function} mixins list of the mixins
+ * @template T
+ * @param {T} baseClass class to mix functionality in
+ * @param {...Mixin} mixins list of the mixins
+ * @returns {T}
  */
 const compose = function (baseClass, ...mixins) {
     if (mixins.length > 0) {
@@ -15,9 +22,15 @@ const compose = function (baseClass, ...mixins) {
     return baseClass;
 };
 
+/**
+ * Creates LightningElement class with some helper functions
+ * @template T
+ * @param {T} baseClass
+ * @returns {T & {with: (...mixins: Mixin<T>) => T}} class with mixed-in helping functions
+ */
 const LightningBaseMixin = (baseClass) => {
     return class extends baseClass {
-        static with = function (...mixins) {
+        static with = (...mixins) => {
             return compose(this, ...mixins);
         };
         $(selector) {
