@@ -29,6 +29,8 @@
 
 The repository contains source code and documentation for "Lightning Web Components: Use it now". There are 2 main topics: LWC best practices and tips&tricks. The webinar material doesn't try to be a definitive guide for work with LWC but hopefully it will help you to understand how to work with LWC more effective way.
 
+The presentation can be found [here](./SF%20Webinar.%20LWC.%20Use%20it%20now.pptx).
+
 ## Installation
 
 Currently there is a simple installation.
@@ -733,8 +735,8 @@ Salesforce LWC simulates shadow dom via adding the unique selectors in th markup
 ```HTML
 <div c_my_component_my_component>
     <span c_my_component_my_component>Hi</span>
-    <lightning-input c_my_component_my_component lightning_input_input_host>
-        <input lightning_input_input />
+    <lightning-input c_my_component_my_component>
+        <input />
     </lightning-input>
 </div>
 ```
